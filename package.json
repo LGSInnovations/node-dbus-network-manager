@@ -1,0 +1,38 @@
+{
+  "name": "dbus-NetworkManager",
+  "version": "0.1.0",
+  "description": "Interface to NetworkManager DBUS interface",
+  "//": [
+    "See: http://2ality.com/2017/06/pkg-esnext.html",
+    "and: http://2ality.com/2017/07/npm-packages-via-babel.html"
+  ],
+  "main": "cjs/index.js",
+  "esnext": "esm/index.js",
+  "scripts": {
+    "build": "yarn && babel esm --out-dir cjs",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "dbus-as-promised": "file:///home/mokus/mnt/dbus-as-promised/dbus-as-promised-0.1.0.tgz"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  }
+}
