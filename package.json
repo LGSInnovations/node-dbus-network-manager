@@ -1,5 +1,5 @@
 {
-  "name": "dbus-NetworkManager",
+  "name": "dbus-network-manager",
   "version": "0.1.0",
   "description": "Interface to NetworkManager DBUS interface",
   "//": [
