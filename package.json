@@ -16,7 +16,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "dbus-as-promised": "file:///home/mokus/mnt/dbus-as-promised/dbus-as-promised-0.1.0.tgz",
+    "dbus-as-promised": "^0.1.0",
     "p-lazy": "^1.0.0"
   },
   "devDependencies": {
