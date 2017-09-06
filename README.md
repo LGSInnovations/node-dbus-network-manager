@@ -1,4 +1,4 @@
-# dbus-NetworkManager
+# dbus-network-manager
 
 A node.js API to interact with NetworkManager via DBus.  This is currently extremely new and incomplete.
 
