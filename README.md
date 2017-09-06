@@ -2,7 +2,6 @@
 
 A node.js API to interact with NetworkManager via DBus.  This is currently extremely new and incomplete.
 
-### Examples
 Here are a few example snippets.  They need work, they're just some random bits and bobs I've been using to test with as I build this (on a Node 6.x system).
 
     require('./cjs/index.js').connect().then(x => nm=x);
