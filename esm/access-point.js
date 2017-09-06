@@ -6,7 +6,7 @@ module.exports = NetworkManager => {
   class AccessPoint extends DBus.InterfaceWrapper {
     static connect(objPath) {
       return NetworkManager._getInterface(
-        DHCP6Config,
+        AccessPoint,
         objPath,
         'org.freedesktop.NetworkManager.AccessPoint');
     }

@@ -5,7 +5,7 @@ const PLazy = require('p-lazy');
 
 module.exports = NetworkManager => {
   class ActiveConnection extends DBus.InterfaceWrapper {
-    constructor(iface, vpnIface) {
+    constructor(iface) {
       super(iface);
       
       this.VPN = PLazy.from(this._getVpnInterace.bind(this));
@@ -22,8 +22,33 @@ module.exports = NetworkManager => {
       return ActiveConnection.VPN.connect(this._iface.objectPath);
     }
     
-    get Connection() {
-      return this.getProperty('Connection').then(NetworkManager.Settings.Connection.connect);
+    async GetConnection() {
+      return NetworkManager.Connection.connect(await this.getProperty('Connection'));
+    }
+    
+    async GetDevices() {
+      let devs = await this.getProperty('Devices');
+      return Promise.all(devs.map(NetworkManager.Device.connect));
+    }
+    
+    async GetIp4Config() {
+      return NetworkManager.IP4Config.connect(await this.getProperty('Ip4Config'));
+    }
+    
+    async GetDhcp4Config() {
+      return NetworkManager.DHCP4Config.connect(await this.getProperty('Dhcp4Config'));
+    }
+    
+    async GetIp6Config() {
+      return NetworkManager.IP6Config.connect(await this.getProperty('Ip6Config'));
+    }
+    
+    async GetDhcp6Config() {
+      return NetworkManager.DHCP6Config.connect(await this.getProperty('Dhcp6Config'));
+    }
+    
+    async GetMaster() {
+      return NetworkManager.Device.connect(await this.getProperty('Master'));
     }
   }
 

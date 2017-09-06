@@ -6,8 +6,8 @@
     "See: http://2ality.com/2017/06/pkg-esnext.html",
     "and: http://2ality.com/2017/07/npm-packages-via-babel.html"
   ],
-  "main": "cjs/index.js",
-  "esnext": "esm/index.js",
+  "main": "cjs/network-manager.js",
+  "esnext": "esm/network-manager.js",
   "scripts": {
     "build": "yarn && babel esm --out-dir cjs",
     "prepublishOnly": "npm run build",
