@@ -1,6 +1,6 @@
 {
   "name": "dbus-network-manager",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Interface to NetworkManager DBUS interface",
   "//": [
     "See: http://2ality.com/2017/06/pkg-esnext.html",
