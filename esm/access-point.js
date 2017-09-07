@@ -10,6 +10,26 @@ module.exports = NetworkManager => {
         objPath,
         'org.freedesktop.NetworkManager.AccessPoint');
     }
+    
+    async GetFlags() {
+      let flags = await this.getProperty('Flags');
+      return NetworkManager.toFlags(NetworkManager.enums.NM80211ApFlags, flags);
+    }
+    
+    async GetWpaFlags() {
+      let flags = await this.getProperty('WpaFlags');
+      return NetworkManager.toFlags(NetworkManager.enums.NM80211ApSecurityFlags, flags);
+    }
+    
+    async GetRsnFlags() {
+      let flags = await this.getProperty('RsnFlags');
+      return NetworkManager.toFlags(NetworkManager.enums.NM80211ApSecurityFlags, flags);
+    }
+    
+    async GetMode() {
+      let mode = await this.getProperty('Mode');
+      return NetworkManager.toEnum(NetworkManager.enums.NM80211Mode, flags);
+    }
   }
   
   return AccessPoint;

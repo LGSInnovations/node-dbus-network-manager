@@ -25,6 +25,8 @@ class NetworkManager extends DBus.InterfaceWrapper {
     this.Settings = require('./settings')(this);
     
     this.Connection = this.Settings.Connection;
+    
+    require('./network-manager-enums')(this);
   }
   
   get SERVICE_NAME() { return SERVICE_NAME; }
@@ -46,6 +48,25 @@ class NetworkManager extends DBus.InterfaceWrapper {
 
     return new NetworkManager(
       await bus.getInterface(SERVICE_NAME, OBJECT_PATH, RPC_INTERFACE));
+  }
+
+  Reload(...flags) {
+    return this._iface.Reload(this.fromFlags(this.enums.ReloadFlags, ...flags));
+  }
+  
+  async CheckConnectivity() {
+    let conn = await this._iface.CheckConnectivity();
+    return this.toEnum(this.enums.ConnectivityState, conn);
+  }
+  
+  async GetConnectivity() {
+    let conn = await this.getProperty('Connectivity');
+    return this.toEnum(this.enums.ConnectivityState, conn);
+  }
+  
+  async GetState() {
+    let state = await this.state();
+    return this.toEnum(this.enums.State, state);
   }
 
   async GetDevices()
@@ -87,12 +108,12 @@ class NetworkManager extends DBus.InterfaceWrapper {
       this.ActiveConnection.connect(active_conn_path)]);
   }
   
-  async CheckpointCreate(devices, rollback_timeout = 0, flags = 0) {
+  async CheckpointCreate(devices, rollback_timeout = 0, ...flags) {
     return this.Checkpoint.connect(
       await this._iface.CheckpointCreate(
         devices.map(DBus.unwrapInterface),
         rollback_timeout,
-        flags));
+        this.fromFlags(this.enums.CheckpointCreateFlags, ...flags)));
   }
   
   async GetActiveConnections() {
@@ -108,12 +129,25 @@ class NetworkManager extends DBus.InterfaceWrapper {
     return this.ActiveConnection.connect(await this.getProperty('ActivatingConnection'));
   }
   
+  async GetMetered() {
+    let metered = await this.getProperty('Metered');
+    return this.toEnum(this.enums.Metered, metered);
+  }
+  
+  async GetCapabilities() {
+    let caps = await this.getProperty('Capabilities');
+    return caps.map(c => this.toEnum(this.enums.Capabilities, c));
+  }
+  
   async _interpretSignal(signal, args)
   {
     switch(signal)
     {
       case 'DeviceAdded':
         return [await this.Device.connect(args[0])];
+      
+      case 'StateChanged':
+        return [this.toEnum(this.enums.State, args[0])];
 
       default:
         return args;

@@ -16,7 +16,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "dbus-as-promised": "^0.1.0",
+    "dbus-as-promised": "git+https://github.com/lgsinnovations/node-dbus-as-promised.git",
     "p-lazy": "^1.0.0"
   },
   "devDependencies": {

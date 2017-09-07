@@ -31,6 +31,11 @@ module.exports = NetworkManager => {
       return Promise.all(devs.map(NetworkManager.Device.connect));
     }
     
+    async GetState() {
+      let state = await this.getProperty('State');
+      return NetworkManager.toEnum(NetworkManager.enums.ActiveConnectionState, state);
+    }
+    
     async GetIp4Config() {
       return NetworkManager.IP4Config.connect(await this.getProperty('Ip4Config'));
     }
@@ -50,6 +55,21 @@ module.exports = NetworkManager => {
     async GetMaster() {
       return NetworkManager.Device.connect(await this.getProperty('Master'));
     }
+    
+    async _interpretSignal(signal, args)
+    {
+      switch(signal)
+      {
+        case 'StateChanged':
+          return [
+            NetworkManager.toEnum(NetworkManager.enums.ActiveConnectionState, args[0]),
+            NetworkManager.toEnum(NetworkManager.enums.ActiveConnectionStateReason, args[1])
+          ];
+        
+        default:
+          return args;
+      }
+    }
   }
 
   ActiveConnection.VPN = class extends DBus.InterfaceWrapper {
@@ -58,6 +78,26 @@ module.exports = NetworkManager => {
         ActiveConnection,
         objPath,
         'org.freedesktop.NetworkManager.VPN.Connection');
+    }
+    
+    async GetState() {
+      let state = await this.getProperty('State');
+      return NetworkManager.toEnum(NetworkManager.enums.VpnConnectionState, state);
+    }
+    
+    async _interpretSignal(signal, args)
+    {
+      switch(signal)
+      {
+        case 'StateChanged':
+          return [
+            NetworkManager.toEnum(NetworkManager.enums.VpnConnectionState, args[0]),
+            NetworkManager.toEnum(NetworkManager.enums.ActiveConnectionStateReason, args[1])
+          ];
+        
+        default:
+          return args;
+      }
     }
   }
 
