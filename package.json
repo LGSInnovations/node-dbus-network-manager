@@ -9,12 +9,19 @@
   "main": "cjs/network-manager.js",
   "esnext": "esm/network-manager.js",
   "scripts": {
-    "build": "yarn && babel esm --out-dir cjs",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm install --only=dev && babel esm --out-dir cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LGSInnovations/node-dbus-network-manager.git"
+  },
+  "author": "James Cook <jcook@lgsinnovations.com>",
   "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/LGSInnovations/node-dbus-network-manager/issues"
+  },
+  "homepage": "https://github.com/LGSInnovations/node-dbus-network-manager#readme",
   "dependencies": {
     "dbus-as-promised": "^0.1.1",
     "p-lazy": "^1.0.0"
@@ -30,7 +37,7 @@
         "env",
         {
           "targets": {
-            "node": "current"
+            "node": "4"
           }
         }
       ]
