@@ -2,22 +2,22 @@
 
 A node.js API to interact with NetworkManager via DBus.  This is currently extremely new and incomplete.
 
-Here are a few example snippets.  They need work, they're just some random bits and bobs I've been using to test with as I build this (on a Node 6.x system).
+Here are a few example snippets.  We could use some more documentation.
 
-    require('./cjs/index.js').connect().then(x => nm=x);
+    const nm = await require('dbus-network-manager').connect();
     
-    nm.on('DeviceAdded', console.log);
-    nm.on('DeviceRemoved', dev => console.log ("Device Removed: " + dev));
+    nm.on('DeviceAdded', dev => console.log("Device Added:", dev));
+    nm.on('DeviceRemoved', dev => console.log("Device Removed:", dev));
     
-    nm.Device.connect('/org/freedesktop/NetworkManager/Devices/0').then(x => dev=x);
-    dev.Statistics.then(x => stats=x);
-    stats.getProperties().then(console.log)
+    let dev = await nm.GetDeviceByIpIface('wlp4s0');
+    let stats = await dev.Statistics;
     stats.on('PropertiesChanged', console.log);
+    console.log(await stats.getProperties());
     stats.setProperty('RefreshRateMs', 100);
 
-    nm.Settings.connect().then(x => settings=x);
-    settings.ListConnections().then(console.log)
+    let settings = await nm.Settings.connect();
+    console.log(await settings.ListConnections());
     settings.on('PropertiesChanged', console.log);
 
-    nm.Connection.connect('/org/freedesktop/NetworkManager/Settings/0').then(x => conn=x);
-    conn.GetSettings().then(console.log)
+    let connections = await settings.ListConnections();
+    console.log(await connections[0].GetSettings());
