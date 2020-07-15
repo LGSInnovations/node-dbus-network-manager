@@ -1,3 +1,9 @@
+# DEPRECATED
+
+This package is no longer maintained.
+
+---
+
 # dbus-network-manager
 
 A node.js API to interact with NetworkManager via DBus.  This is currently extremely new and incomplete.
